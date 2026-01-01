@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления турниром по теннису</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Хедер -->
+        <header class="admin-header">
+            <div class="header-main">
+                <h1><i class="fas fa-table-tennis"></i> Панель управления турниром</h1>
+                <div class="tournament-info">
+                    <input type="text" id="tournamentName" value="Турнир по настольному теннису" class="tournament-title">
+                    <span class="tournament-type">Формат: <strong>Americano</strong></span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="participants.html" class="btn btn-public">
+                    <i class="fas fa-users"></i> Страница для участников
+                </a>
+                <button id="saveAll" class="btn btn-success">
+                    <i class="fas fa-save"></i> Сохранить все
+                </button>
+                <button id="exportData" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Экспорт
+                </button>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="admin-main">
+            <!-- Вкладки -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="players">
+                    <i class="fas fa-user-plus"></i> Участники
+                </button>
+                <button class="tab-btn" data-tab="matches">
+                    <i class="fas fa-gamepad"></i> Матчи
+                </button>
+                <button class="tab-btn" data-tab="schedule">
+                    <i class="fas fa-calendar-alt"></i> Расписание
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i> Настройки
+                </button>
+                <button class="tab-btn" data-tab="stats">
+                    <i class="fas fa-chart-bar"></i> Статистика
+                </button>
+            </div>
+
+            <!-- Содержимое вкладок -->
+            <div class="tab-content">
+                <!-- Вкладка участников -->
+                <div id="players-tab" class="tab-pane active">
+                    <div class="pane-header">
+                        <h2><i class="fas fa-users"></i> Регистрация участников</h2>
+                        <button id="addPlayer" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Добавить участника
+                        </button>
+                    </div>
+                    
+                    <div class="players-grid">
+                        <!-- Список участников -->
+                        <div class="card">
+                            <h3>Зарегистрированные участники</h3>
+                            <div id="playersList" class="players-list">
+                                <!-- Список будет заполнен через JS -->
+                            </div>
+                        </div>
+
+                        <!-- Форма добавления/редактирования -->
+                        <div class="card">
+                            <h3 id="formTitle">Добавить нового участника</h3>
+                            <form id="playerForm" class="player-form">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="lastName"><i class="fas fa-user"></i> Фамилия *</label>
+                                        <input type="text" id="lastName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstName"><i class="fas fa-user"></i> Имя *</label>
+                                        <input type="text" id="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="middleName"><i class="fas fa-user"></i> Отчество</label>
+                                        <input type="text" id="middleName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="organization"><i class="fas fa-building"></i> Организация</label>
+                                        <input type="text" id="organization">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nationality"><i class="fas fa-globe"></i> Национальность</label>
+                                        <input type="text" id="nationality">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="country"><i class="fas fa-flag"></i> Страна</label>
+                                        <input type="text" id="country">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-check"></i> Сохранить
+                                    </button>
+                                    <button type="button" id="cancelEdit" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i> Отмена
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка матчей -->
+                <div id="matches-tab" class="tab-pane">
+                    <div class="pane-header">
+                        <h2><i class="fas fa-gamepad"></i> Управление матчами</h2>
+                        <div class="match-actions">
+                            <button id="generateMatches" class="btn btn-primary">
+                                <i class="fas fa-cogs"></i> Сгенерировать матчи
+                            </button>
+                            <button id="addMatch" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Добавить матч
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="matches-control">
+                        <!-- Фильтры матчей -->
+                        <div class="filters">
+                            <select id="matchFilter" class="filter-select">
+                                <option value="all">Все матчи</option>
+                                <option value="scheduled">Запланированные</option>
+                                <option value="completed">Завершенные</option>
+                                <option value="live">В процессе</option>
+                            </select>
+                            <select id="roundFilter" class="filter-select">
+                                <option value="all">Все раунды</option>
+                            </select>
+                        </div>
+
+                        <!-- Список матчей -->
+                        <div id="matchesList" class="matches-list">
+                            <!-- Матчи будут загружены через JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка расписания -->
+                <div id="schedule-tab" class="tab-pane">
+                    <div class="pane-header">
+                        <h2><i class="fas fa-calendar-alt"></i> Расписание матчей</h2>
+                        <button id="generateSchedule" class="btn btn-primary">
+                            <i class="fas fa-calendar-plus"></i> Создать расписание
+                        </button>
+                    </div>
+
+                    <div class="schedule-grid">
+                        <!-- Календарь -->
+                        <div class="card">
+                            <h3>Календарь турнира</h3>
+                            <div id="calendar" class="calendar">
+                                <!-- Календарь будет заполнен через JS -->
+                            </div>
+                        </div>
+
+                        <!-- Расписание по кортам -->
+                        <div class="card">
+                            <h3>Расписание по кортам</h3>
+                            <div id="courtsSchedule" class="courts-schedule">
+                                <!-- Расписание по кортам -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка настроек -->
+                <div id="settings-tab" class="tab-pane">
+                    <div class="pane-header">
+                        <h2><i class="fas fa-cog"></i> Настройки турнира</h2>
+                    </div>
+
+                    <div class="settings-grid">
+                        <!-- Основные настройки -->
+                        <div class="card">
+                            <h3><i class="fas fa-sliders-h"></i> Основные настройки</h3>
+                            <form id="settingsForm" class="settings-form">
+                                <div class="form-group">
+                                    <label for="totalPoints">Очков до победы</label>
+                                    <input type="number" id="totalPoints" value="21" min="1" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="courtsCount">Количество кортов</label>
+                                    <input type="number" id="courtsCount" value="4" min="1" max="20">
+                                </div>
+                                <div class="form-group">
+                                    <label for="matchDuration">Длительность матча (минут)</label>
+                                    <input type="number" id="matchDuration" value="30" min="5" max="120">
+                                </div>
+                                <div class="form-group">
+                                    <label for="timezone">Часовой пояс</label>
+                                    <select id="timezone">
+                                        <option value="Europe/Moscow">Москва (+3)</option>
+                                        <option value="Europe/Kiev">Киев (+2)</option>
+                                        <option value="Asia/Almaty">Алматы (+6)</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check"></i> Сохранить настройки
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Правила турнира -->
+                        <div class="card">
+                            <h3><i class="fas fa-book"></i> Правила турнира</h3>
+                            <div class="rules-info">
+                                <h4>Формат "Americano":</h4>
+                                <ul>
+                                    <li>Каждый играет с каждым в паре</li>
+                                    <li>Игра ведется до 21 очка в сумме</li>
+                                    <li>Игрок получает в копилку набранные очки</li>
+                                    <li>Все участники играют одновременно</li>
+                                </ul>
+                                
+                                <h4>Критерии ранжирования:</h4>
+                                <ol>
+                                    <li>Общее количество очков</li>
+                                    <li>Личные встречи (при равенстве очков)</li>
+                                    <li>Разница побед/поражений</li>
+                                    <li>Количество побед</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка статистики -->
+                <div id="stats-tab" class="tab-pane">
+                    <div class="pane-header">
+                        <h2><i class="fas fa-chart-bar"></i> Статистика турнира</h2>
+                        <button id="exportStats" class="btn btn-secondary">
+                            <i class="fas fa-file-export"></i> Экспорт в CSV
+                        </button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <!-- Таблица лидеров -->
+                        <div class="card wide-card">
+                            <h3><i class="fas fa-trophy"></i> Текущая таблица лидеров</h3>
+                            <div class="table-responsive">
+                                <table id="leaderboardTable" class="stats-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Место</th>
+                                            <th>Участник</th>
+                                            <th>Очки</th>
+                                            <th>Матчи</th>
+                                            <th>Победы</th>
+                                            <th>Поражения</th>
+                                            <th>Рейтинг</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="leaderboardBody">
+                                        <!-- Данные будут загружены через JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Графики статистики -->
+                        <div class="card">
+                            <h3><i class="fas fa-chart-pie"></i> Распределение очков</h3>
+                            <div id="pointsChart" class="chart-container">
+                                <canvas id="pointsChartCanvas"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- История матчей -->
+                        <div class="card">
+                            <h3><i class="fas fa-history"></i> Последние матчи</h3>
+                            <div id="recentMatches" class="recent-matches">
+                                <!-- Последние матчи -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Футер -->
+        <footer class="admin-footer">
+            <p><i class="fas fa-info-circle"></i> Панель управления турниром &copy; 2024 | 
+               Обновлено: <span id="lastUpdated">-</span> | 
+               Всего участников: <span id="totalPlayers">0</span> | 
+               Матчей: <span id="totalMatches">0</span></p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно для ввода результата -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit"></i> Ввод результата матча</h3>
+            <div id="matchDetails" class="match-details"></div>
+            <div class="score-input">
+                <div class="player-score">
+                    <h4 id="player1Name"></h4>
+                    <input type="number" id="player1Points" min="0" max="21" value="0">
+                </div>
+                <div class="vs">:</div>
+                <div class="player-score">
+                    <h4 id="player2Name"></h4>
+                    <input type="number" id="player2Points" min="0" max="21" value="0">
+                </div>
+            </div>
+            <div class="total-score">
+                <p>Всего очков в матче: <span id="totalMatchPoints">0</span></p>
+            </div>
+            <div class="modal-actions">
+                <button id="submitResult" class="btn btn-success">
+                    <i class="fas fa-check"></i> Сохранить результат
+                </button>
+                <button id="cancelResult" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Отмена
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для создания матча -->
+    <div id="matchModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-plus"></i> Создание матча</h3>
+            <form id="matchForm" class="match-form">
+                <div class="form-group">
+                    <label for="matchPlayer1">Участник 1</label>
+                    <select id="matchPlayer1" class="player-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="matchPlayer2">Участник 2</label>
+                    <select id="matchPlayer2" class="player-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="matchCourt">Корт</label>
+                    <select id="matchCourt" class="court-select">
+                        <!-- Опции будут заполнены через JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="matchRound">Раунд</label>
+                    <input type="number" id="matchRound" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="matchTime">Время начала</label>
+                    <input type="datetime-local" id="matchTime">
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Создать матч
+                    </button>
+                    <button type="button" id="cancelMatch" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Отмена
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
