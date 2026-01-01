@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турнир по настольному теннису - Результаты</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container public">
+        <!-- Хедер для участников -->
+        <header class="public-header">
+            <div class="header-content">
+                <h1><i class="fas fa-table-tennis"></i> <span id="tournamentTitle">Турнир по настольному теннису</span></h1>
+                <p class="tournament-subtitle">Формат "Americano" | Игра до 21 очка</p>
+                <div class="tournament-status">
+                    <span class="status-badge active"><i class="fas fa-play-circle"></i> Идет турнир</span>
+                    <span class="current-round">Текущий раунд: <strong id="currentRound">1</strong></span>
+                </div>
+            </div>
+            <div class="header-links">
+                <a href="index.html" class="btn btn-admin">
+                    <i class="fas fa-lock"></i> Панель управления
+                </a>
+                <button id="refreshData" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Обновить
+                </button>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="public-main">
+            <!-- Таблица лидеров -->
+            <section class="leaderboard-section">
+                <h2><i class="fas fa-trophy"></i> Таблица лидеров</h2>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Место</th>
+                                    <th>Участник</th>
+                                    <th><i class="fas fa-bullseye"></i> Очки</th>
+                                    <th><i class="fas fa-gamepad"></i> Матчи</th>
+                                    <th><i class="fas fa-check-circle"></i> Победы</th>
+                                    <th><i class="fas fa-times-circle"></i> Поражения</th>
+                                    <th><i class="fas fa-chart-line"></i> Рейтинг</th>
+                                </tr>
+                            </thead>
+                            <tbody id="publicLeaderboard">
+                                <!-- Данные будут загружены через JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <div class="public-grid">
+                <!-- Текущие матчи -->
+                <section class="matches-section">
+                    <h2><i class="fas fa-clock"></i> Текущие матчи</h2>
+                    <div class="card">
+                        <div id="currentMatches" class="matches-container">
+                            <!-- Матчи будут загружены через JS -->
+                        </div>
+                        <div class="no-data" id="noCurrentMatches">
+                            <i class="fas fa-clock"></i>
+                            <p>Нет текущих матчей</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Расписание матчей -->
+                <section class="schedule-section">
+                    <h2><i class="fas fa-calendar-alt"></i> Расписание матчей</h2>
+                    <div class="card">
+                        <div class="schedule-filters">
+                            <button class="filter-btn active" data-filter="today">Сегодня</button>
+                            <button class="filter-btn" data-filter="tomorrow">Завтра</button>
+                            <button class="filter-btn" data-filter="all">Все</button>
+                        </div>
+                        <div id="matchSchedule" class="schedule-container">
+                            <!-- Расписание будет загружено через JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- История результатов -->
+                <section class="history-section">
+                    <h2><i class="fas fa-history"></i> История результатов</h2>
+                    <div class="card">
+                        <div id="matchHistory" class="history-container">
+                            <!-- История будет загружена через JS -->
+                        </div>
+                        <div class="history-stats">
+                            <div class="stat-card">
+                                <i class="fas fa-fire"></i>
+                                <h3>Самые результативные</h3>
+                                <div id="topScorers"></div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <h3>Последние результаты</h3>
+                                <div id="latestResults"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Следующий раунд -->
+                <section class="next-round-section">
+                    <h2><i class="fas fa-forward"></i> Следующий раунд</h2>
+                    <div class="card">
+                        <div id="nextRoundInfo" class="next-round-info">
+                            <!-- Информация о следующем раунде -->
+                        </div>
+                        <div class="round-preview">
+                            <h3><i class="fas fa-eye"></i> Предварительные пары</h3>
+                            <div id="nextRoundPairs" class="pairs-container">
+                                <!-- Пары следующего раунда -->
+                            </div>
+                        </div>
+                        <div class="round-notice">
+                            <p><i class="fas fa-info-circle"></i> Пары формируются автоматически на основе текущих результатов</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Информация о турнире -->
+                <section class="info-section">
+                    <h2><i class="fas fa-info-circle"></i> Информация о турнире</h2>
+                    <div class="card">
+                        <div class="tournament-rules">
+                            <h3><i class="fas fa-book"></i> Правила формата "Americano"</h3>
+                            <ul>
+                                <li><strong>Каждый играет с каждым:</strong> Все участники играют одновременно</li>
+                                <li><strong>Система очков:</strong> Игра ведется до 21 очка в сумме</li>
+                                <li><strong>Подсчет:</strong> Каждый игрок получает набранные очки в свою копилку</li>
+                                <li><strong>Продолжительность:</strong> Матч длится до достижения 21 очка или по таймеру</li>
+                            </ul>
+                            
+                            <h3><i class="fas fa-sort-amount-down"></i> Критерии ранжирования</h3>
+                            <ol>
+                                <li>Общее количество очков</li>
+                                <li>Результат личных встреч (при равенстве очков)</li>
+                                <li>Разница побед и поражений</li>
+                                <li>Количество побед</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tournament-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Кортов: <strong id="courtsCount">4</strong></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>Участников: <strong id="playersCount">0</strong></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Обновлено: <strong id="publicLastUpdated">-</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Футер -->
+        <footer class="public-footer">
+            <p>Турнир по настольному теннису &copy; 2024 | Для связи с организаторами: 
+               <a href="mailto:organizer@tournament.local">organizer@tournament.local</a></p>
+        </footer>
+    </div>
+
+    <script src="js/public.js"></script>
+</body>
+</html>
