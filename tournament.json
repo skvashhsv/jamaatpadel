@@ -1,0 +1,45 @@
+{
+  "tournamentName": "Турнир по настольному теннису",
+  "tournamentType": "Americano",
+  "settings": {
+    "totalPoints": 21,
+    "courts": 4,
+    "timezone": "Europe/Moscow",
+    "allowDraws": false
+  },
+  "players": [
+    {
+      "id": 1,
+      "lastName": "Иванов",
+      "firstName": "Иван",
+      "middleName": "Иванович",
+      "organization": "Спортклуб 'Чемпион'",
+      "nationality": "Русский",
+      "country": "Россия",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "matchesPlayed": 0,
+      "rating": 1500
+    }
+  ],
+  "matches": [
+    {
+      "id": 1,
+      "player1Id": 1,
+      "player2Id": 2,
+      "player1Points": 0,
+      "player2Points": 0,
+      "totalPoints": 0,
+      "court": 1,
+      "round": 1,
+      "status": "scheduled",
+      "startTime": "2024-12-01T10:00:00",
+      "completed": false,
+      "winnerId": null
+    }
+  ],
+  "schedule": [],
+  "currentRound": 1,
+  "lastUpdated": "2024-12-01T09:00:00"
+}
